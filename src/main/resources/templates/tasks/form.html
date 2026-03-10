@@ -9,18 +9,18 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <form>
+    <form th:action="@{/tasks}" th:method="post" th:object="${taskForm}">
         <div class="mb-3">
             <label for="titleInput" class="form-label">タイトル</label>
-            <input type="text" class="form-control" id="titleInput" aria-describedby="emailHelp">
+            <input type="text" class="form-control" id="titleInput" th:field="*{title}">
         </div>
         <div class="mb-3">
             <label for="descriptionInput" class="form-label">内容</label>
-            <textarea class="form-control" id="descriptionInput"></textarea>
+            <textarea class="form-control" id="descriptionInput" th:field="*{description}"></textarea>
         </div>
         <div class="mb-3">
             <label for="deadlineInput" class="form-label">期限</label>
-            <input type="date" class="form-control" id="deadlineInput"></input>
+            <input type="date" class="form-control" id="deadlineInput" th:field="*{deadline}">
         </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
     </form>
