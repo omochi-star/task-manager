@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}"
+>
+<head>
+    <title>Todoアプリ</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <form>
+        <div class="mb-3">
+            <label for="titleInput" class="form-label">タイトル</label>
+            <input type="text" class="form-control" id="titleInput" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="descriptionInput" class="form-label">内容</label>
+            <textarea class="form-control" id="descriptionInput"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="deadlineInput" class="form-label">期限</label>
+            <input type="date" class="form-control" id="deadlineInput"></input>
+        </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</section>
+</body>
+</html>

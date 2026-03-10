@@ -20,4 +20,9 @@ public class TaskController {
         return "tasks/list";
     }
 
+    @GetMapping("/create")
+    public String showCreationForm(){
+        return "tasks/form";
+    }
+
 }
