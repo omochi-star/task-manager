@@ -1,0 +1,8 @@
+create table tasks(
+id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+title VARCHAR(256) NOT NULL,
+description VARCHAR(256) NOT NULL,
+status VARCHAR(256) NOT NULL,
+deadline    DATE,
+created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
