@@ -4,6 +4,7 @@ import com.example.task_manager.entity.task.TaskEntity;
 import com.example.task_manager.repository.task.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,5 +15,10 @@ public class TaskService {
 
     public List<TaskEntity> find() {
         return taskRepository.select();
+    }
+
+    @Transactional
+    public void create(TaskEntity newEntity) {
+        taskRepository.insert(newEntity);
     }
 }

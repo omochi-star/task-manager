@@ -30,6 +30,7 @@ public class TaskController {
 
     @PostMapping
     public String create(TaskForm form, Model model) {
+        taskService.create(form.toEntity());
         return "redirect:/tasks";
     }
 
