@@ -12,7 +12,8 @@
     <form th:action="@{/tasks}" th:method="post" th:object="${taskForm}">
         <div class="mb-3">
             <label for="titleInput" class="form-label">タイトル</label>
-            <input type="text" class="form-control" id="titleInput" th:field="*{title}">
+            <input type="text" class="form-control" id="titleInput" th:field="*{title}" th:errorclass="is-invalid">
+            <div th:errors="*{title}" class="invalid-feedback"></div>
         </div>
         <div class="mb-3">
             <label for="descriptionInput" class="form-label">内容</label>

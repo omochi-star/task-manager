@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +31,10 @@ public class TaskController {
     }
 
     @PostMapping
-    public String create(TaskForm form, Model model) {
+    public String create(@Validated TaskForm form, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return showCreationForm(form);
+        }
         taskService.create(form.toEntity());
         return "redirect:/tasks";
     }
