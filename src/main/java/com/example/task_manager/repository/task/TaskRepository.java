@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface TaskRepository {
@@ -20,5 +21,5 @@ public interface TaskRepository {
     void insert(@Param("task") TaskEntity newEntity);
 
     @Select("select * from tasks where id = #{taskId}")
-    TaskEntity findById(long taskId);
+    Optional<TaskEntity> findById(long taskId);
 }

@@ -1,6 +1,7 @@
 package com.example.task_manager.controller.task;
 
 import com.example.task_manager.service.task.TaskService;
+import groovy.lang.GString;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,10 @@ public class TaskController {
 
     @GetMapping("/{taskId}")
     public String detail(@PathVariable("taskId") long taskId, Model model) {
-        var taskEntity = taskService.findById(taskId);
-        model.addAttribute("task", taskEntity);
+        var taskDTO = taskService.findById(taskId)
+                .map(TaskDTO::toDTO)
+                .orElseThrow(TaskNotFoundException::new);
+        model.addAttribute("task", taskDTO);
         return "tasks/detail";
     }
 
@@ -44,6 +47,11 @@ public class TaskController {
         }
         taskService.create(form.toEntity());
         return "redirect:/tasks";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm() {
+        return "tasks/edit";
     }
 
 }
