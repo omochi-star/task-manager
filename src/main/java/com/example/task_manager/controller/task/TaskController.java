@@ -28,8 +28,10 @@ public class TaskController {
 
     @GetMapping("/{taskId}")
     public String detail(@PathVariable("taskId") long taskId, Model model) {
-        var taskEntity = taskService.findById(taskId);
-        model.addAttribute("task", taskEntity);
+        var taskDTO = taskService.findById(taskId)
+                .map(TaskDTO::toDTO)
+                .orElseThrow(TaskNotFoundException::new);
+        model.addAttribute("task", taskDTO);
         return "tasks/detail";
     }
 
@@ -48,7 +50,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditForm(){
+    public String showEditForm() {
         return "tasks/edit";
     }
 
