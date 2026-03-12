@@ -20,17 +20,17 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <strong>ステータス</strong>
+                    <strong>Status</strong>
                     <span th:text="*{status}"></span>
                 </li>
                 <li class="list-group-item">
-                    <strong>期限</strong>
+                    <strong>Deadline</strong>
                     <span th:text="*{deadline}"></span>
                 </li>
             </ul>
             <div class="card-footer">
                 <small class="text-muted">
-                    <strong>作成日</strong>
+                    <strong>Created</strong>
                     <span th:text="${#temporals.format(task.createdAt,'yyyy/MM/dd HH:mm')}"></span>
                 </small>
             </div>

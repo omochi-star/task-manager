@@ -9,7 +9,7 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">ID</th>
@@ -19,15 +19,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="task:${taskList}" th:object="${task}">
-            <td ><a th:text="'#'+ *{id}"></a></td>
-            <td ><a th:text="*{title}"></a></td>
+        <tr th:each="task : ${taskList}"
+            th:onclick="|location.href='@{/tasks/{id}(id=*{id})}'|"
+            style="cursor:pointer"
+        th:object="${task}">
+            <td><a th:text="'#'+ *{id}"></a></td>
+            <td><a th:text="*{title}" ></a></td>
             <td th:text="*{status}"></td>
-            <td ><a th:text="*{deadline}"></a></td>
+            <td><a th:text="*{deadline}"></a></td>
         </tr>
         </tbody>
     </table>
     <a th:href="@{/tasks/create}" class="btn btn-primary">新規作成</a>
-    </section>
+</section>
 </body>
 </html>
