@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,9 +17,19 @@ public class TaskController {
 
     @GetMapping
     public String list(Model model) {
-        var taskList = taskService.find();
+        var taskList = taskService.find()
+                .stream()
+                .map(TaskDTO::toDTO)
+                .toList();
         model.addAttribute("taskList", taskList);
         return "tasks/list";
+    }
+
+    @GetMapping("/{taskId}")
+    public String detail(@PathVariable("taskId") long taskId, Model model) {
+        var taskEntity = taskService.findById(taskId);
+        model.addAttribute("task", taskEntity);
+        return "tasks/detail";
     }
 
     @GetMapping("/create")

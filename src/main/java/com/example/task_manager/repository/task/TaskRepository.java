@@ -19,4 +19,6 @@ public interface TaskRepository {
             """)
     void insert(@Param("task") TaskEntity newEntity);
 
+    @Select("select * from tasks where id = #{taskId}")
+    TaskEntity findById(long taskId);
 }

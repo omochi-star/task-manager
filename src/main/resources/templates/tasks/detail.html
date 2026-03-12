@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}"
+>
+<head>
+    <title>Todoアプリ</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container mt-4">
+        <div class="card" th:object="${task}">
+            <div class="card-header" th:text="'#'+ *{id}"></div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="*{title}"></h5>
+                <p class="card-text">
+                    <span th:text="*{description}"></span>
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>ステータス</strong>
+                    <span th:text="*{status}"></span>
+                </li>
+                <li class="list-group-item">
+                    <strong>期限</strong>
+                    <span th:text="*{deadline}"></span>
+                </li>
+            </ul>
+            <div class="card-footer">
+                <small class="text-muted">
+                    <strong>作成日</strong>
+                    <span th:text="${#temporals.format(task.createdAt,'yyyy/MM/dd HH:mm')}"></span>
+                </small>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
