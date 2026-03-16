@@ -5,11 +5,13 @@
       layout:decorate="~{layout/layout}"
 >
 <head>
-    <title>Todoアプリ</title>
+    <title th:text="${mode == 'CREATE'} ? 'タスク作成' : 'タスク編集'">タスク作成</title>
 </head>
 <body>
 <section layout:fragment="content">
-    <form th:action="@{/tasks}" th:method="post" th:object="${taskForm}">
+    <form th:action="${mode == 'CREATE'} ? @{/tasks} : @{/tasks/{id}(id=${id})}"
+          th:method="${mode == 'CREATE'} ? post : put"
+          th:object="${taskForm}">
         <div class="mb-3">
             <label for="titleInput" class="form-label">タイトル</label>
             <input type="text" class="form-control" id="titleInput" th:field="*{title}" th:errorclass="is-invalid">
@@ -19,11 +21,20 @@
             <label for="descriptionInput" class="form-label">内容</label>
             <textarea class="form-control" id="descriptionInput" th:field="*{description}"></textarea>
         </div>
+        <div class="mb-3 form-group">
+            <label class="form-label" for="statusInput">ステータス</label>
+            <select class="form-select" id="statusInput" th:field="*{status}" th:errorclass="is-invalid">
+                <option value="TODO">TODO</option>
+                <option value="DOING">DOING</option>
+                <option value="DONE">DONE</option>
+            </select>
+            <div th:errors="*{status}" class="invalid-feedback"></div>
+        </div>
         <div class="mb-3">
             <label for="deadlineInput" class="form-label">期限</label>
             <input type="date" class="form-control" id="deadlineInput" th:field="*{deadline}">
         </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" th:text="${mode == 'CREATE'} ? '作成' : '編集'"></button>
     </form>
 </section>
 </body>

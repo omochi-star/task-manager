@@ -1,5 +1,7 @@
 package com.example.task_manager.service.task;
 
+import com.example.task_manager.controller.task.TaskForm;
+import com.example.task_manager.controller.task.TaskNotFoundException;
 import com.example.task_manager.entity.task.TaskEntity;
 import com.example.task_manager.repository.task.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +29,20 @@ public class TaskService {
         return taskRepository.findById(taskId);
     }
 
+    @Transactional
+    public void update(long id, TaskForm form) {
+        TaskEntity old = taskRepository.findById(id)
+                .orElseThrow(TaskNotFoundException::new);
 
+        TaskEntity updated = new TaskEntity(
+                id,
+                form.title(),
+                form.description(),
+                TaskStatus.valueOf(form.status()),
+                form.deadline(),
+                old.createdAt()
+        );
+
+        taskRepository.update(updated);
+    }
 }

@@ -26,9 +26,9 @@ public class TaskController {
         return "tasks/list";
     }
 
-    @GetMapping("/{taskId}")
-    public String detail(@PathVariable("taskId") long taskId, Model model) {
-        var taskDTO = taskService.findById(taskId)
+    @GetMapping("/{id}")
+    public String detail(@PathVariable long id, Model model) {
+        var taskDTO = taskService.findById(id)
                 .map(TaskDTO::toDTO)
                 .orElseThrow(TaskNotFoundException::new);
         model.addAttribute("task", taskDTO);
@@ -36,22 +36,44 @@ public class TaskController {
     }
 
     @GetMapping("/create")
-    public String showCreationForm(@ModelAttribute TaskForm form) {
+    public String showCreationForm(@ModelAttribute TaskForm form, Model model) {
+        model.addAttribute("mode", "CREATE");
         return "tasks/form";
     }
 
     @PostMapping
     public String create(@Validated TaskForm form, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return showCreationForm(form);
+            return showCreationForm(form, model);
         }
         taskService.create(form.toEntity());
         return "redirect:/tasks";
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditForm() {
-        return "tasks/edit";
+    public String showEditForm(@PathVariable long id, Model model) {
+        var form = taskService.findById(id)
+                .map(TaskForm::fromEntity)
+                .orElseThrow(TaskNotFoundException::new);
+        model.addAttribute("taskForm", form);
+        model.addAttribute("id", id);
+        return "tasks/form";
     }
+
+    @PutMapping("/{id}")
+    public String update(
+            @PathVariable("id") long id,
+            @Validated @ModelAttribute TaskForm form,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("mode", "EDIT");
+            return "tasks/form";
+        }
+        taskService.update(id, form);
+        return "redirect:/tasks/{id}";
+    }
+
 
 }
