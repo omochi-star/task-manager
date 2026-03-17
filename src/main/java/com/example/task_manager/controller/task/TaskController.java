@@ -44,7 +44,8 @@ public class TaskController {
     @PostMapping
     public String create(@Validated TaskForm form, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return showCreationForm(form, model);
+            model.addAttribute("mode", "CREATE");
+            return "tasks/form";
         }
         taskService.create(form.toEntity());
         return "redirect:/tasks";
@@ -57,6 +58,7 @@ public class TaskController {
                 .orElseThrow(TaskNotFoundException::new);
         model.addAttribute("taskForm", form);
         model.addAttribute("id", id);
+        model.addAttribute("mode", "EDIT");
         return "tasks/form";
     }
 
@@ -69,10 +71,17 @@ public class TaskController {
     ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("mode", "EDIT");
+            model.addAttribute("id", id);
             return "tasks/form";
         }
         taskService.update(id, form);
         return "redirect:/tasks/{id}";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") long id) {
+        taskService.delete(id);
+        return "redirect:/tasks";
     }
 
 

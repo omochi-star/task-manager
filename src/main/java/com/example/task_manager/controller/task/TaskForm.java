@@ -5,6 +5,7 @@ import com.example.task_manager.service.task.TaskStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public record TaskForm(
         @Pattern(regexp = "TODO|DOING|DONE", message="Todo, Doing, Done のいずれかを選択してください。")
         String status,
 
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate deadline
 ) {
     public static TaskForm fromEntity(TaskEntity taskEntity) {
@@ -37,7 +39,7 @@ public record TaskForm(
                 null,
                 title(),
                 description(),
-                TaskStatus.TODO,
+                TaskStatus.valueOf(status()),
                 deadline(),
                 LocalDateTime.now()
         );

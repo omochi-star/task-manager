@@ -45,4 +45,9 @@ public class TaskService {
 
         taskRepository.update(updated);
     }
+
+    @Transactional
+    public void delete(long id) {
+        taskRepository.delete(id);
+    }
 }
