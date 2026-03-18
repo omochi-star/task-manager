@@ -9,6 +9,31 @@
 </head>
 <body>
 <section layout:fragment="content">
+    <div class="mt-3 card">
+        <div class="card-header">
+            検索
+        </div>
+        <div class="card-body ">
+            <form role="search" th:action="@{/tasks}" method="get" th:object="${searchDTO}">
+                <input class="form-control me-2" type="search" placeholder="タイトル" aria-label="Search" id="titleSearch"
+                       th:field="*{title}">
+                <div class="btn-group mt-3">
+                    <input class="btn-check" type="checkbox" id="statusSearchTodo" name="status"
+                           value="TODO" th:checked="*{isChecked('TODO')}">
+                    <label class="btn btn-outline-primary" for="statusSearchTodo">TODO</label>
+                    <input class="btn-check" type="checkbox" id="statusSearchDoing" name="status"
+                           value="DOING" th:checked="*{isChecked('DOING')}">
+                    <label class="btn btn-outline-primary" for="statusSearchDoing">DOING</label>
+                    <input class="btn-check" type="checkbox" id="statusSearchDone" name="status"
+                           value="DONE" th:checked="*{isChecked('DONE')}">
+                    <label class="btn btn-outline-primary" for="statusSearchDone">DONE</label>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <table class="table table-hover">
         <thead>
         <tr>
