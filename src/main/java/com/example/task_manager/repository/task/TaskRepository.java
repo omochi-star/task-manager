@@ -1,6 +1,7 @@
 package com.example.task_manager.repository.task;
 
 import com.example.task_manager.entity.task.TaskEntity;
+import com.example.task_manager.entity.task.TaskSearchEntity;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -9,16 +10,24 @@ import java.util.Optional;
 @Mapper
 public interface TaskRepository {
     @Select("""
-            SELECT
-            id,
-            title,
-            description,
-            status,
-            deadline,
-            created_at AS createdAt
-            FROM tasks;
+                        <script>
+                            SELECT id, title, description, status, deadline, created_at
+                            FROM tasks
+                            <where>
+                                <if test='condition.title != null and !condition.title.isBlank()'>
+                                    title LIKE CONCAT('%', #{condition.title}, '%')
+                                </if>
+                                <if test='condition.status != null and !condition.status.isEmpty()'>
+                                    AND status IN (
+                                    <foreach item='item' index='index' collection = 'condition.status' separator=','>
+                                        #{item}
+                                    </foreach>
+                                    )
+                                </if>
+                            </where>
+                        </script>
             """)
-    List<TaskEntity> select();
+    List<TaskEntity> select(@Param("condition") TaskSearchEntity condition);
 
     @Insert("""
             INSERT INTO tasks (title, description, status, deadline, created_at)
