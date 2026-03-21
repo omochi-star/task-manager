@@ -25,6 +25,12 @@ public interface TaskRepository {
                                     )
                                 </if>
                             </where>
+                            <if test="condition.sort == 'deadline_desc'">
+                              ORDER BY deadline DESC
+                            </if>
+                            <if test="condition.sort == 'deadline_asc'">
+                              ORDER BY deadline ASC
+                            </if>
                         </script>
             """)
     List<TaskEntity> select(@Param("condition") TaskSearchEntity condition);

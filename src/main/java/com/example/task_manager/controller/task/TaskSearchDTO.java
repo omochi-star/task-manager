@@ -5,7 +5,8 @@ import java.util.Optional;
 
 public record TaskSearchDTO(
         String title,
-        List<String> statusList
+        List<String> statusList,
+        String sort
 ) {
     public boolean isChecked(String status) {
         return Optional.ofNullable(statusList)
